@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WordleView : MonoBehaviour{
-    // Start is called before the first frame update
-    void Start(){
+    private WordleController controller;
+    private WordleModel model;
+
+    private GameObject[] rows;
+
+    private void Setup(){
         
+    }
+    private void UpdateView(){
+
     }
 
-    // Update is called once per frame
-    void Update(){
-        
-    }
 }
