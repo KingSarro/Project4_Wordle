@@ -56,5 +56,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Project4_Wordle.sln"
+    "dotnet.defaultSolution": "Project4_Wordle.sln",
+    "cSpell.words": [
+        "Wordle"
+    ]
 }
