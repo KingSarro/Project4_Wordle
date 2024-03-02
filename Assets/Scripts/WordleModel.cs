@@ -3,16 +3,16 @@ using System.Linq;
 using UnityEngine;
 
 public class WordleModel : MonoBehaviour{
-    private int currentAttempt;
-    bool isGameWon;
-    bool isGameOver;
+    public int currentAttempt;
+    public bool isGameWon;
+    public bool isGameOver;
     private int[,] cells = new int[5, 6];
 
     [SerializeField] TextAsset possibleAnswersAsset;
     [SerializeField] TextAsset allowedWordsAsset;
     private string[] possibleAnswers;
     private string[] allowedWords;
-    private string correctAnswer;
+    public string correctAnswer;
     public string userGuess;
 
 
@@ -24,9 +24,13 @@ public class WordleModel : MonoBehaviour{
         //Found this to convert Everything to Uppercase
         possibleAnswers = System.Array.ConvertAll(possibleAnswers, x => x.ToUpper());
         allowedWords = System.Array.ConvertAll(allowedWords, x => x.ToUpper());
+        //Found This to trim the whitespace off the end of each element
+        possibleAnswers = possibleAnswers.Select(x => x.TrimEnd()).ToArray();
+        allowedWords = allowedWords.Select(x => x.TrimEnd()).ToArray();
 
         //Sets the current attempt to 1
         currentAttempt = 1;
+        userGuess = "";
         
         Setup();
         //DEBUG:
@@ -43,9 +47,10 @@ public class WordleModel : MonoBehaviour{
         currentAttempt = 1;
         //Gets a random answer from the possible answers list
         correctAnswer = possibleAnswers[UnityEngine.Random.Range(0, possibleAnswers.Length)].ToUpper();
+        Debug.Log("Correct Answer: " + correctAnswer);
     }
     public bool IsValidGuess(string guess){
-        string g = guess.ToUpper();
+        string g = guess;
         string pa = possibleAnswers[0];
         string s = "ABACK";
         Debug.Log("--------------------------------");
@@ -73,18 +78,8 @@ public class WordleModel : MonoBehaviour{
         Debug.Log( " == : " + (s == possibleAnswers[0] ? "True": "False") );
         Debug.Log( " IndexOf: " + ((Array.IndexOf(possibleAnswers, s) != -1) ? "True": "False") );
 
-        bool isPos, isAllowed;
-        isPos = possibleAnswers.Any(answer => answer == guess);
-        isAllowed = allowedWords.Any(word => word == guess);
-        Debug.Log("--------------------------------");
-        if(isPos || isAllowed){
-            Debug.Log("Guess is valid");
-            return true;
-        }
-        else{
-            Debug.Log("Guess is invalid");
-            return false;
-        }
+        //if (){}
+        return true;
     }
 
     private void UpdateCells(){
