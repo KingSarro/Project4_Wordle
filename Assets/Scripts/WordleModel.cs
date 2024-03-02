@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEngine;
-//using System.Array;
 
 public class WordleModel : MonoBehaviour{
     private int currentAttempt;
+    bool isGameWon;
+    bool isGameOver;
     private int[,] cells = new int[5, 6];
 
     [SerializeField] TextAsset possibleAnswersAsset;
@@ -17,9 +17,9 @@ public class WordleModel : MonoBehaviour{
 
 
     private void Start(){
-        //Spilts the text files up by their newline character and saves them to an array
-        possibleAnswers = possibleAnswersAsset.text.Split('\n');
-        allowedWords = allowedWordsAsset.text.Split('\n');
+        //Splits the text files up by their newline character and saves them to an array
+        possibleAnswers = possibleAnswersAsset.text.Trim().Split('\n');
+        allowedWords = allowedWordsAsset.text.Trim().Split('\n');
 
         //Found this to convert Everything to Uppercase
         possibleAnswers = System.Array.ConvertAll(possibleAnswers, x => x.ToUpper());
@@ -42,17 +42,51 @@ public class WordleModel : MonoBehaviour{
 
         currentAttempt = 1;
         //Gets a random answer from the possible answers list
-        correctAnswer = possibleAnswers[Random.Range(0, possibleAnswers.Length)].ToUpper();
+        correctAnswer = possibleAnswers[UnityEngine.Random.Range(0, possibleAnswers.Length)].ToUpper();
     }
     public bool IsValidGuess(string guess){
-        //If the guess is not in the list of possible (which would return -1), return false
-        if(System.Array.IndexOf(possibleAnswers, guess.ToUpper()) == -1 && System.Array.IndexOf(allowedWords, guess.ToUpper()) == -1){
-            return false;
-        }
-        else{
+        string g = guess.ToUpper();
+        string pa = possibleAnswers[0];
+        string s = "ABACK";
+        Debug.Log("--------------------------------");
+        Debug.Log("g: -" + g + "-");
+        Debug.Log("gTrim:-" + g.Trim() + "-");
+        Debug.Log("g.length:" + g.Length);
+        Debug.Log("++++++++++++++++++++++++++++++++");
+        Debug.Log("pa: -" + pa + "-");
+        Debug.Log("paTrim:-" + pa.Trim() + "-");
+        Debug.Log("pa.length:" + pa.Length); //FIXME: The length is returning 6, which would automatically make nothing compared to this true
+        Debug.Log("pa.trim().length:" + pa.Trim().Length);
+        int i = 0;
+        foreach(char c in pa){
+            Debug.Log(i + ": " + c);
+            i++;
+        }//FIXME: There is a white space at the end, which should be removed
+        Debug.Log("++++++++++++++++++++++++++++++++");
+        Debug.Log("s: -" + s + "-");
+        Debug.Log("sTrim:-" + s.Trim() + "-");
+        Debug.Log("s.length:" + s.Length);
+
+        
+        Debug.Log("--------------------------------");
+        Debug.Log( ".Equals: " + (s.Equals(possibleAnswers[0]) ? "True": "False") );
+        Debug.Log( " == : " + (s == possibleAnswers[0] ? "True": "False") );
+        Debug.Log( " IndexOf: " + ((Array.IndexOf(possibleAnswers, s) != -1) ? "True": "False") );
+
+        bool isPos, isAllowed;
+        isPos = possibleAnswers.Any(answer => answer == guess);
+        isAllowed = allowedWords.Any(word => word == guess);
+        Debug.Log("--------------------------------");
+        if(isPos || isAllowed){
+            Debug.Log("Guess is valid");
             return true;
         }
+        else{
+            Debug.Log("Guess is invalid");
+            return false;
+        }
     }
+
     private void UpdateCells(){
 
     }

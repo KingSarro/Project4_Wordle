@@ -7,35 +7,47 @@ using UnityEngine.UI;
 public class WordleController : MonoBehaviour{
     [SerializeField] WordleModel model;
     [SerializeField] WordleView view;
-    private InputField input;
+    [SerializeField] TMP_InputField input;
 
     private void GameSetup(){
+        //input = gameObject.GetComponent<InputField>();
+        //Calls the setup function on the model and the view
         model.Setup();
         view.Setup();
     }
     public void SubmitGuess(){
-        //if the text input is not empty and has 5 characters
-        if(input != null){
-            //Checks if the guess is valid
-            if(model.IsValidGuess(input.text.ToString().ToUpper()) == true){
-                Debug.Log("Word is in file");
-                //Saves the value of input to userGuess;
-                model.userGuess = input.ToString().ToUpper();
+        Debug.Log("Submit was pressed");
+        model.userGuess = input.text;
+        Debug.Log("Guess: " + model.userGuess);
+
+        if((input.text != null || input.text!= "") && input.text.Length == 5){
+            Debug.Log("Text is not null");
+            if ( model.IsValidGuess(input.text.ToUpper()) ){
+                Debug.Log("Guess is valid");
             }
             else{
-                Debug.Log("Word is not found in our word list. #2");
+                Debug.Log("Guess is not valid");
             }
         }
-        //FIXME: All Instances trigger this
         else{
-            Debug.Log("Word is not found in our word list. #1");
+            Debug.Log("Text is null or less than 5 characters");
         }
+    
+
+        //TODO: Call isGuessValid() for guess validity
+        //TODO: update model.currentAttempt
+        //TODO: update model.userGuess
+        //TODO: Call model.UpdateCells() to update the cells
+        //TODO: Call view.UpdateView()
+
     }
     private void WinGame(){
-
+        //TODO: Check is the current guess equals the correct answer
+        //TODO: Reveal a reset button to restart the game
     }
     private void LoseGame(){
-
+        //TODO: Checks if the max number of attempts has been reached and the current guess is not equal to the correct answer
+        //TODO: Reveal a reset button to restart the game
     }
 
 }
