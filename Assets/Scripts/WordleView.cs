@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WordleView : MonoBehaviour{
-    private WordleController controller;
-    private WordleModel model;
+    Cells cells;
+    [SerializeField] GameObject[] rows;
 
-    private GameObject[] rows;
-
-    private void Setup(){
-        
+    public void Setup(){
+        cells.Setup();
     }
     private void UpdateView(){
-
+        
     }
 
 }
